@@ -14,7 +14,7 @@ app.use(express.json());
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log('연결완료');
+    console.log('연결완료되었습니다');
   })
   .catch(err => {
     console.error(err);
