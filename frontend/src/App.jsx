@@ -18,6 +18,7 @@ import { authUser } from './store/thunkFunctions.js';
 import ProtectedPage from './pages/ProtectedPage/index.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
 import NotAuthRoutes from './components/NotAuthRoutes.jsx';
+import TestPage from './pages/TestPage/index.jsx';
 function Layout() {
   return (
     <S.Wrapper>
@@ -52,6 +53,7 @@ function App() {
           <Route path='/product/:productId' element={<DetailProductPage />}></Route>
           <Route path='/user/cart' element={<CartPage />}></Route>
           <Route path='/history' element={<HistoryPage />}></Route>
+          <Route path='/test' element={<TestPage />}></Route>
         </Route>
         {/* 로그인 하면 못감 */}
         <Route element={<NotAuthRoutes isAuth={isAuth} />}>
