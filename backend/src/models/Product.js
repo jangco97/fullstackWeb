@@ -1,4 +1,4 @@
-const { default: mongoose } = require('mongoose');
+const { default: mongoose, Schema } = require('mongoose');
 
 const productSchema = mongoose.Schema({
   writer: {
@@ -19,15 +19,34 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  category: {
+  department: {
     type: Number,
     default: 1,
+  },
+  address: {
+    type: String,
+  },
+  addressDetail: {
+    type: String,
   },
   views: {
     type: Number,
     default: 0,
   },
 });
+
+productSchema.index(
+  {
+    title: 'text',
+    description: 'text',
+  },
+  {
+    weights: {
+      title: 5,
+      description: 1,
+    },
+  }
+);
 
 const Product = mongoose.model('Product', productSchema);
 
