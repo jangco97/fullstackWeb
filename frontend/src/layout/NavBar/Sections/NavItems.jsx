@@ -4,17 +4,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../../store/thunkFunctions';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 const routes = [
-  { to: '/login', name: '로그인', auth: false },
-  { to: '/register', name: '회원가입', auth: false },
-  { to: '/product/upload', name: '업로드', auth: true },
+  { to: '/login', name: '로그인', auth: false, current: false },
+  { to: '/register', name: '회원가입', auth: false, current: false },
+  { to: '/product/upload', name: '업로드', auth: true, current: false },
   {
     to: '/user/cart',
     name: '카트',
     auth: true,
     icon: <ShoppingCartOutlined style={{ fontSize: '1.5rem', color: '#08c' }} />,
+    current: false,
   },
-  { to: '', name: '로그아웃', auth: true },
-  { to: '/history', name: '주문목록', auth: true },
+  { to: '', name: '로그아웃', auth: true, current: true },
+  { to: '/history', name: '주문목록', auth: true, current: false },
 ];
 const NavItems = ({ mobile }) => {
   const navigate = useNavigate();
@@ -36,12 +37,15 @@ const NavItems = ({ mobile }) => {
       className={`text-md justify-center w-full flex gap-4 ${
         mobile && 'flex-col bg-blue-300 h-full'
       } items-center`}>
-      {routes.map(({ to, name, auth, icon }) => {
+      {routes.map(({ to, name, auth, icon, current }) => {
         if (isAuth !== auth) return null;
 
         if (name === '로그아웃') {
           return (
-            <li key={name} className='py-2 text-center border-b-4 cursor-pointer'>
+            <li
+              key={name}
+              className='py-2 text-center border-b-4 cursor-pointer'
+              aria-current={current ? 'page' : undefined}>
               <Link onClick={handleLogout}>{name}</Link>
             </li>
           );
