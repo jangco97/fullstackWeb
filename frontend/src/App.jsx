@@ -19,7 +19,7 @@ import ProtectedPage from './pages/ProtectedPage/index.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
 import NotAuthRoutes from './components/NotAuthRoutes.jsx';
 import TestPage from './pages/TestPage/index.jsx';
-import NavTestPage from './pages/NavTestPage/index.jsx';
+
 function Layout() {
   return (
     <S.Wrapper>
@@ -55,7 +55,6 @@ function App() {
           <Route path='/user/cart' element={<CartPage />}></Route>
           <Route path='/history' element={<HistoryPage />}></Route>
           <Route path='/test' element={<TestPage />}></Route>
-          <Route path='/nav' element={<NavTestPage />}></Route>
         </Route>
         {/* 로그인 하면 못감 */}
         <Route element={<NotAuthRoutes isAuth={isAuth} />}>

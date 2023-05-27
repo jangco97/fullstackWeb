@@ -14,7 +14,7 @@ const DepartmentCheckBox = ({ department, checkedDepartment, onFilters }) => {
   };
 
   return (
-    <div className='p-2 mb-3 bg-blue-300 rounded-md'>
+    <div className='p-3'>
       {department?.map(item => (
         <div key={item._id}>
           <input
