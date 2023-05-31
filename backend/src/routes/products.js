@@ -77,14 +77,13 @@ router.get('/', async (req, res, next) => {
   if (term) {
     findArgs['$text'] = { $search: term };
   }
-  console.log(findArgs);
   try {
     const products = await Product.find(findArgs)
       .populate('writer')
       .sort([[sortBy, order]])
       .skip(skip)
       .limit(limit);
-    //Product document의 (총개수)와 (그동안 가져온 개수+다음 가져올 개수)를 비교하여 개수가 적으면 true를 리턴, 많으면 false를 리턴한다.
+
     const productsTotal = await Product.countDocuments(findArgs);
     const hasMore = skip + limit < productsTotal ? true : false;
 
@@ -98,3 +97,4 @@ router.get('/', async (req, res, next) => {
 });
 
 module.exports = router;
+//Product document의 (총개수)와 (그동안 가져온 개수+다음 가져올 개수)를 비교하여 개수가 적으면 true를 리턴, 많으면 false를 리턴한다.

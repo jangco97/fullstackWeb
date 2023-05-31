@@ -32,6 +32,7 @@ app.post('/', (req, res) => {
 });
 app.use('/users', require('./routes/users'));
 app.use('/products', require('./routes/products'));
+app.use('/comments', require('./routes/comments'));
 //에러 처리기
 app.use((error, req, res, next) => {
   res.status(error.status || 500);

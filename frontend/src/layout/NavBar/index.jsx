@@ -69,10 +69,9 @@ const Navbar = () => {
                     {navigation.map(item => {
                       if (!isAuth) return null;
                       return (
-                        <>
+                        <div key={item.name}>
                           <Link to={item.to}>
                             <div
-                              key={item.name}
                               className={classNames(
                                 item.name === select
                                   ? 'bg-gray-900 text-white'
@@ -84,7 +83,7 @@ const Navbar = () => {
                               {item.name}
                             </div>
                           </Link>
-                        </>
+                        </div>
                       );
                     })}
                   </div>
@@ -153,10 +152,9 @@ const Navbar = () => {
           <Disclosure.Panel className='sm:hidden'>
             <div className='space-y-1 px-2 pb-3 pt-2'>
               {navigation.map(item => (
-                <>
+                <div key={item.name}>
                   <Link to={item.to}>
                     <Disclosure.Button
-                      key={item.name}
                       as='div'
                       className={classNames(
                         item.name === select
@@ -169,7 +167,7 @@ const Navbar = () => {
                       {item.name}
                     </Disclosure.Button>
                   </Link>
-                </>
+                </div>
               ))}
             </div>
           </Disclosure.Panel>
