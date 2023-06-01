@@ -5,8 +5,12 @@ const ProductInfo = ({ userData, product }) => {
     <div>
       <div>
         <div className='flex items-center mb-10'>
-          <img className='h-10 w-10 rounded-full mr-3' src={userData.image} alt='사용자이미지' />
-          <div className='text-base font-bold mr-3'>작성자: {userData.name}</div>
+          <img
+            className='h-10 w-10 rounded-full mr-3'
+            src={product.writer.image}
+            alt='사용자이미지'
+          />
+          <div className='text-base font-bold mr-3'>작성자: {product.writer.name}</div>
           {/* <span>{getDate(product.createdAt)}</span> */}
         </div>
       </div>
@@ -20,7 +24,7 @@ const ProductInfo = ({ userData, product }) => {
       />
       <p className='text-3xl font-bold mb-10'>{product.title}</p>
       <p className='mb-10 font-light text-2xl'>
-        학과: {department[Number(product.department)].name}
+        학과: {department[Number(product.department) - 1].name}
       </p>
       <p className='mb-10 font-light text-2xl'>가격: {product.price}원</p>
       <div className='text-xl'>{product.description}</div>
