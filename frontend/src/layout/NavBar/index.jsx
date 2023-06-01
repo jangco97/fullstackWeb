@@ -21,6 +21,10 @@ const Navbar = () => {
   const handleClick = name => {
     setSelect(name);
   };
+  const mainLogoClick = () => {
+    navigate('/');
+    setSelect('홈');
+  };
   const navigate = useNavigate();
   const isAuth = useSelector(state => state.user?.isAuth);
   const dispatch = useDispatch();
@@ -54,12 +58,14 @@ const Navbar = () => {
               <div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
                 <div className='flex flex-shrink-0 items-center'>
                   <img
-                    className='block h-[120px] w-auto lg:hidden'
+                    onClick={mainLogoClick}
+                    className='block h-[120px] w-auto lg:hidden hover:cursor-pointer'
                     src={'/image/mainicon.png'}
                     alt='Your Company'
                   />
                   <img
-                    className='hidden h-[120px] w-auto lg:block'
+                    onClick={mainLogoClick}
+                    className='hidden h-[120px] w-auto lg:block hover:cursor-pointer'
                     src={'/image/mainicon.png'}
                     alt='Your Company'
                   />

@@ -11,15 +11,6 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  //   Comment.find({ commenter: req.params.id }).populate('commenter')
-  //     .then((comments) => {
-  //       console.log(comments);
-  //       res.json(comments);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       next(err);
-  //     });
 });
 
 router.post('/', async (req, res, next) => {
