@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import DaumPostcode from 'react-daum-postcode';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../utils/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import FileUpload from '../../components/FileUpload';
 const departments = [
   { key: 1, value: '컴퓨터공학과' },
@@ -30,7 +30,7 @@ const departments = [
   { key: 22, value: '경영학과' },
 ];
 
-const UploadProductPage = () => {
+const UploadProductPage = ({ edit }) => {
   const [product, setProduct] = useState({
     title: '',
     description: '',
@@ -44,6 +44,32 @@ const UploadProductPage = () => {
   const userData = useSelector(state => state.user?.userData);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const { productId } = useParams();
+
+  useEffect(() => {
+    // 수정 상태인 경우, 기존 데이터를 불러온 후 상태 업데이트
+    if (productId) {
+      const fetchProduct = async () => {
+        try {
+          const response = await axiosInstance.get(`/products/${productId}?type=single`);
+          const productData = response.data[0];
+          setProduct(prevState => ({
+            ...prevState,
+            title: productData.title,
+            description: productData.description,
+            price: productData.price,
+            department: productData.department,
+            images: productData.images,
+            address: productData.address,
+            addressDetail: productData.addressDetail,
+          }));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchProduct();
+    }
+  }, [productId]);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -70,7 +96,13 @@ const UploadProductPage = () => {
         ...product,
       };
       try {
-        await axiosInstance.post('/products', body);
+        if (productId) {
+          // 수정 상태인 경우, 수정 요청 보내기
+          await axiosInstance.patch(`/products/${productId}`, body);
+        } else {
+          // 새로운 상품 업로드 요청 보내기
+          await axiosInstance.post('/products', body);
+        }
         navigate('/');
       } catch (error) {
         console.error(error);

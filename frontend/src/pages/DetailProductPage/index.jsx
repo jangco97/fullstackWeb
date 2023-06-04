@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
 import ProductImage from './Sections/ProductImage';
 import ProductInfo from './Sections/ProductInfo';
@@ -13,8 +13,20 @@ const DetailProductPage = () => {
   const [product, setProduct] = useState(null);
   const [comment, setComment] = useState(null);
   const dispatch = useDispatch();
-  const handleClick = () => {
+  const navigate = useNavigate();
+  const handlePickClick = () => {
     dispatch(addToCart({ productId: product._id }));
+  };
+  const handleEditClick = () => {
+    navigate(`/product/edit/${productId}`);
+  };
+  const handleDeleteClick = async () => {
+    try {
+      await axiosInstance.delete(`/products/${productId}`);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
   useEffect(() => {
     async function fetchComment() {
@@ -52,11 +64,33 @@ const DetailProductPage = () => {
           <ProductImage product={product} />
         </div>
         <div className='flex justify-center mb-20'>
-          <button
-            className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
-            onClick={handleClick}>
-            장바구니
-          </button>
+          {product.writer._id === userData.id ? (
+            <>
+              <button
+                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                onClick={handleEditClick}>
+                수정하기
+              </button>
+              <button
+                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                onClick={handleDeleteClick}>
+                삭제하기
+              </button>{' '}
+            </>
+          ) : (
+            <>
+              <button
+                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                onClick={handlePickClick}>
+                장바구니
+              </button>
+              <button
+                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                onClick={handlePickClick}>
+                구매하기
+              </button>
+            </>
+          )}
         </div>
       </div>
       <div>
