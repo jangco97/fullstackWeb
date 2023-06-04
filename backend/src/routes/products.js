@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Product = require('../models/Product');
+const Comment = require('../models/Comment');
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -54,7 +55,45 @@ router.get('/:id', async (req, res, next) => {
     next(error);
   }
 });
+router.patch('/:id', auth, async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const updatedFields = req.body;
 
+    const product = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    return res.status(200).json(product);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:id', auth, async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+
+    // 1. 상품과 관련된 모든 댓글을 찾습니다.
+    const comments = await Comment.find({ productId });
+    console.log(comments, '삭제완료');
+    // 2. 찾은 댓글들을 삭제합니다.
+    await Comment.deleteMany({ productId });
+
+    // 3. 상품을 삭제합니다.
+    const product = await Product.findByIdAndRemove(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    return res.status(200).json({ message: 'Product and related comments deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+});
 router.get('/', async (req, res, next) => {
   const order = req.query.order ? req.query.order : 'desc';
   const sortBy = req.query.sortBy ? req.query.sortBy : '_id';
