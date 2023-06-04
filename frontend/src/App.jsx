@@ -50,11 +50,14 @@ function App() {
         {/* 로그인 안하면 볼 수 없는 페이지 경로 */}
         <Route element={<ProtectedRoutes isAuth={isAuth} />}>
           <Route path='/protected' element={<ProtectedPage />} />
-          <Route path='/product/upload' element={<UploadProductPage />}></Route>
+          <Route path='/product/upload' element={<UploadProductPage edit={false} />}></Route>
           <Route path='/product/:productId' element={<DetailProductPage />}></Route>
           <Route path='/user/cart' element={<CartPage />}></Route>
           <Route path='/history' element={<HistoryPage />}></Route>
           <Route path='/test' element={<TestPage />}></Route>
+          <Route
+            path='/product/edit/:productId'
+            element={<UploadProductPage edit={true} />}></Route>
         </Route>
         {/* 로그인 하면 못감 */}
         <Route element={<NotAuthRoutes isAuth={isAuth} />}>
