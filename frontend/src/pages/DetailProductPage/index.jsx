@@ -7,6 +7,7 @@ import ProductComment from './Sections/ProductComment';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../store/thunkFunctions';
 import { useSelector } from 'react-redux';
+import ProductMap from './Sections/ProductMap';
 const DetailProductPage = () => {
   const userData = useSelector(state => state.user?.userData);
   const { productId } = useParams();
@@ -63,16 +64,22 @@ const DetailProductPage = () => {
         <div className='w-96 mx-auto mt-20 mb-20'>
           <ProductImage product={product} />
         </div>
-        <div className='flex justify-center mb-20'>
+        <div className='flex flex-col items-center mb-20'>
+          <ProductMap product={product} />
+          <div className='mt-10 text-lg'>
+            주소: {product.address} {product.addressDetail}
+          </div>
+        </div>
+        <div className='flex  justify-center mb-20'>
           {product.writer._id === userData.id ? (
             <>
               <button
-                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                className='w-80 h-30 px-4 py-3  bg-black text-white hover:bg-blue-700 rounded-md mr-20'
                 onClick={handleEditClick}>
                 수정하기
               </button>
               <button
-                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                className='w-80 h-30 px-4 py-3 bg-black text-white hover:bg-red-700 rounded-md'
                 onClick={handleDeleteClick}>
                 삭제하기
               </button>{' '}
@@ -80,12 +87,12 @@ const DetailProductPage = () => {
           ) : (
             <>
               <button
-                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                className='w-80 h-30 px-4 py-3 bg-black text-white hover:bg-blue-700 rounded-md'
                 onClick={handlePickClick}>
                 장바구니
               </button>
               <button
-                className='w-80 px-4 py-2 bg-black text-white hover:bg-blue-700 rounded-md'
+                className='w-80 h-30 px-4 py-3 bg-black text-white hover:bg-blue-700 rounded-md'
                 onClick={handlePickClick}>
                 구매하기
               </button>
